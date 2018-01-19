@@ -7,14 +7,11 @@ Dieter Menne
 Menne Biomed Consulting Tübingen, Germany    
 http://www.menne-biomed.de   
 
-Paul Bürkners package [brms](https://github.com/paul-buerkner/brms) is a flexible and transparent companion of [rstanarm](https://github.com/stan-dev/rstanarm). The latter is more limited and uses prebuild Stan models with many branches, avoiding lengthy recompiles before start.
+Paul Bürkners package [brms](https://github.com/paul-buerkner/brms) is a flexible and transparent alternative or complement to [rstanarm](https://github.com/stan-dev/rstanarm). The latter is more limited and uses prebuild Stan models with many branches, avoiding lengthy recompiles before start. `brms` uses lean Stan code, but the compiled code by default can only be used easily without recompiling within a session.
 
-`brms` produces easy-to-read Stan code without bells and whistles, but the compiled code by default can only be used easily without recompiling within a session
-
-This demo package uses the `inhaler` examples from `brms/brm` (with venerable BUGS roots) to demonstate how to use precompiled models that can be used with new data set in an approach similar to that of `rstanarm`.
+This demo package uses the `inhaler` examples from `brms/brm` (with venerable BUGS roots) to demonstate how to generated precompiled models that can be used with new data sets in an approach similar to that of `rstanarm`.
 
 # Howto
-
 
 * Generate a Stan package skeleton with `rstantools/rstan_package_skeleton`. It is assumed that you do not know the names of your Stan files yet, so you probably leave the parameter `stan_files` empty.
 * I assume that you work in RStudio; emacs afficionados don't need tutorials. Make sure that you let roxygen build your `NAMESPACE` and `.Rd` files in your project settings.
@@ -71,10 +68,15 @@ run_inhaler = function(){
 ```
 
 * Note that for quick debugging I access `stanmodels` with `:::`; you must remove this for the final build, CRAN and friends do not like this. 
+* Now comes the not so funny part, correcting the inconsistencies of the Stan skeleton; some have been reported by [Paul Brückner](https://github.com/stan-dev/rstantools/issues/19); so check out, some things might have been corrected in versions >1.4.0.
 
-* Now comes the not so funny part, correcting the inconsistencies of the Stan skeleton; some have been reported by [Paul Brückner](https://github.com/stan-dev/rstantools/issues/19). Maybe at the time you read this the inconsistencies have been corrected.
+1. _The good-natured one:_  The license file must be in subdirectory `src/stan_files/pre`, not in `chunks` where the skeleton puts it.
+2. In `R/zzz.R`, change  `loadModule(m, what = TRUE)` to `Rcpp::loadModule(m, what = TRUE)`. You could use other methods to avoid the unknown function warning, but this one is never wrong.
+3. _The ugly one:_ When you have not used `stan_files` during skeleton creation, or when you have added more Stan files, you must manually add their names to `Makevars` and to `Makevars.win`, for example: `SOURCES = stan_files/inhaler.stan`.
+4.  _The long-term killer:_ Stan and Rcpp are moving targets, and to handle changes in compilers requires update in `.cpp, .hpp`, and `StanModels.R`. When after a version change I am flooded with error message, I generate a new skeleton in an empty directory, and compare the core-files to find out what has changed. Some sort of versioning probably would be nice in the future.
 
+# Limitations
+Priors cannot be changed in the model without recompilation. `brms` is clever enough to do this automatically, but the new model is not stored for later use.
 
-1. The simple one:  The license file must be in subdirectory `src/stan_files/pre`.
 
 
