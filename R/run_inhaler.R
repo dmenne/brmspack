@@ -17,6 +17,7 @@ run_inhaler = function(){
   #load("inst/extdata/inhaler.rda")
   
   # mix up results a bit so we get a random result  
+  data(inhaler)
   newdata = inhaler
   newdata$rating = sample(newdata$rating, nrow(newdata))
   # priors cannot be changed without recompiling
