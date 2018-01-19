@@ -6,7 +6,7 @@ library(brms)
 stopifnot(file.exists("DESCRIPTION")) # Make sure we start from project file
 inhaler_model <- brm(rating ~ period + carry + cs(treat), 
             save_model = "src/stan_files/inhaler.stan",
-            iter = 300,
+            iter = 1,
             data = inhaler, family = sratio("cloglog"), 
             prior = set_prior("normal(0,5)"))
 save(inhaler_model, file = "inst/extdata/inhaler.rda")

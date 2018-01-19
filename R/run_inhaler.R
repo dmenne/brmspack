@@ -12,12 +12,15 @@ run_inhaler = function(){
   load(system.file("extdata/inhaler.rda", package = "brmspack"))
   
   # for debugging
-  mod = brmspack:::stanmodels[["inhaler"]] 
+  #mod = brmspack:::stanmodels[["inhaler"]] 
   # load inhaler_model 
-  load("inst/extdata/inhaler.rda")
+  #load("inst/extdata/inhaler.rda")
   
+  # mix up results a bit so we get a random result  
+  newdata = inhaler
+  newdata$rating = sample(newdata$rating, nrow(newdata))
+  # priors cannot be changed without recompiling
   fit2 = update(inhaler_model, newdata = inhaler, 
-                iter = 500, chains = 1,
-                set_prior("normal(0,1)"))
+                iter = 500, chains = 1)
   plot(fit2, ask = FALSE)
 }
