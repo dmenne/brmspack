@@ -1,6 +1,6 @@
-[![Travis-CI Build Status](https://travis-ci.org/dmenne/breathteststan.svg?branch=master)](https://travis-ci.org/dmenne/breathteststan)
+[![Travis-CI Build Status](https://travis-ci.org/dmenne/brmspack.svg?branch=master)](https://travis-ci.org/dmenne/brmspack)
 
-brmspack: Sample how to use precompiled models in brms
+brmspack: Use precompiled models in brms
 ===========================================
 
 Dieter Menne   
