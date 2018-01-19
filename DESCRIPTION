@@ -1,0 +1,25 @@
+Package: brmspack
+Type: Package
+Title: How to use precompiled models with brms
+Version: 0.1.0.9000
+Date: 2018-01-19
+Authors@R: c(
+    person("Dieter", "Menne", , "dieter.menne@menne-biomed.de", role = c("aut", "cre")),
+    person("Paul", "Buerkner",, "paul.buerkner@gmail.com", role = "aut"))
+Maintainer: Dieter Menne<dieter.menne@menne-biomed.de>
+Description: Precompiles inhaler model and runs it with updated priors, data.
+License: GPL (>= 3)
+Depends: 
+    R (>= 3.3.0), 
+    Rcpp (>= 0.12.14), 
+    methods
+Imports: 
+    rstan (>= 2.17.2), 
+    rstantools (>= 1.4.0)
+LinkingTo: 
+    StanHeaders (>= 2.17.1), 
+    rstan (>= 2.17.2), 
+    BH (>= 1.65.0.1), 
+    Rcpp (>= 0.12.14), 
+    RcppEigen (>= 0.3.3.3.1)
+RoxygenNote: 6.0.1.9000
