@@ -71,9 +71,11 @@ run_inhaler = function(){
 * Now comes the not so funny part, correcting the inconsistencies of the Stan skeleton; some have been reported by [Paul Brückner](https://github.com/stan-dev/rstantools/issues/19); so check out, some things might have been corrected in versions >1.4.0.
 
 1. _The good-natured one:_  The license file must be in subdirectory `src/stan_files/pre`, not in `chunks` where the skeleton puts it.
-2. In `R/zzz.R`, change  `loadModule(m, what = TRUE)` to `Rcpp::loadModule(m, what = TRUE)`. You could use other methods to avoid the unknown function warning, but this one is never wrong.
+2. In `R/zzz.R`, change  `loadModule(m, what = TRUE)` to `Rcpp::loadModule(m, what = TRUE)`. Alternatively, you can add `@importFrom Rcpp loadModule` to one of your R files.
 3. _The ugly one:_ When you have not used `stan_files` during skeleton creation, or when you have added more Stan files, you must manually add their names to `Makevars` and to `Makevars.win`, for example: `SOURCES = stan_files/inhaler.stan`.
 4.  _The long-term killer:_ Stan and Rcpp are moving targets, and to handle changes in compilers requires update in `.cpp, .hpp`, and `StanModels.R`. When after a version change I am flooded with error message, I generate a new skeleton in an empty directory, and compare the core-files to find out what has changed. Some sort of versioning probably would be nice in the future.
+
+Optionally, I have moved `Depends: Rcpp` to `Imports: Rcpp` in DESCRIPTION. There are cases where you might have to move it back.
 
 # Limitations
 Priors cannot be changed in the model without recompilation. `brms` is clever enough to do this automatically, but the new model is not stored for later use.
