@@ -11,14 +11,14 @@
 #' #run_inhaler()
 #' @export
 run_inhaler = function(){
-#  mod = stanmodels[["inhaler"]] # Not yet used
+  mod = stanmodels[["inhaler"]] # Not yet used
   # load inhaler_model 
   inhaler_model = readRDS(system.file("extdata/inhaler.rds", package = "brmspack"))
 
     # for debugging
 #  mod = brmspack:::stanmodels[["inhaler"]] 
 #  inhaler_model = readRDS("inst/extdata/inhaler.rds")
-  
+  stopifnot(!is.null(getCall(inhaler_model))) # required patch version 
 # inhaler_model$fit@stanmodel = mod # Don't replace yet
   
 # mix up results a bit so we get a random result  
@@ -26,9 +26,7 @@ run_inhaler = function(){
 #  newdata = inhaler
 #  newdata$rating = sample(newdata$rating, nrow(newdata))
 
-  # priors cannot be changed without recompiling
-  ## DEBUG: Trivial variant, where the model is simply re-run without changes
   # Error: need an object with call component"
-  fit2 = update(inhaler_model)
+  fit2 = update(inhaler_model, recompile = "never")
   plot(fit2, ask = FALSE)
 }
