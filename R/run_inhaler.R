@@ -8,24 +8,27 @@
 #' @importFrom Rcpp loadModule
 #'
 #' @examples
-#' run_inhaler()
+#' #run_inhaler()
 #' @export
 run_inhaler = function(){
-  #mod = stanmodels[["inhaler"]]
-  # load inhaler_model (TODO: better use rds to assign?)
-  #inhaler_model = readRDS(system.file("extdata/inhaler.rds", package = "brmspack"))
-  
-  # for debugging
-  #mod = brmspack:::stanmodels[["inhaler"]] 
+#  mod = stanmodels[["inhaler"]] # Not yet used
   # load inhaler_model 
-  #inhaler_model = readRDS("inst/extdata/inhaler.rds")
+  inhaler_model = readRDS(system.file("extdata/inhaler.rds", package = "brmspack"))
+
+    # for debugging
+#  mod = brmspack:::stanmodels[["inhaler"]] 
+#  inhaler_model = readRDS("inst/extdata/inhaler.rds")
   
-  # mix up results a bit so we get a random result  
-  data("inhaler", package = "brms")
-  newdata = inhaler
-  newdata$rating = sample(newdata$rating, nrow(newdata))
+# inhaler_model$fit@stanmodel = mod # Don't replace yet
+  
+# mix up results a bit so we get a random result  
+#  data("inhaler", package = "brms")
+#  newdata = inhaler
+#  newdata$rating = sample(newdata$rating, nrow(newdata))
+
   # priors cannot be changed without recompiling
-  library(brms)
-  fit2 = update(inhaler_model,  newdata = inhaler)
+  ## DEBUG: Trivial variant, where the model is simply re-run without changes
+  # Error: need an object with call component"
+  fit2 = update(inhaler_model)
   plot(fit2, ask = FALSE)
 }

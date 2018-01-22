@@ -9,18 +9,22 @@ Authors@R: c(
     person("Paul", "Buerkner",, "paul.buerkner@gmail.com", role = "aut"))
 Maintainer: Dieter Menne<dieter.menne@menne-biomed.de>
 Description: Precompiles inhaler model and runs it with updated data. 
-    Priors cannot be updated.
+    Priors cannot be updated without recompiling.
 License: GPL (>= 3)
-Depends: 
-    R (>= 3.3.0) 
-Imports: 
+Depends:
+    R (>= 3.3.0), methods 
+Imports:
     Rcpp (>= 0.12.14),
     rstan (>= 2.17.2), 
-    rstantools (>= 1.4.0)
-LinkingTo: 
+    rstantools (>= 1.4.0),
+    brms
+LinkingTo:
     StanHeaders (>= 2.17.1), 
     rstan (>= 2.17.2), 
     BH (>= 1.65.0.1), 
     Rcpp (>= 0.12.14), 
     RcppEigen (>= 0.3.3.3.1)
+Remotes:
+    paul-buerkner/brms 
 RoxygenNote: 6.0.1.9000
+Suggests: testthat

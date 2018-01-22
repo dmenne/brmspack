@@ -10,13 +10,13 @@ inhaler_model = brm(rating ~ period + carry + cs(treat),
             iter = 100,
             data = inhaler, family = sratio("cloglog"), 
             prior = set_prior("normal(0,5)"))
-# Temporary workaround because of missing newline 
-cat("\n", file = modelfile, append = TRUE)
+# In case you have a version of brms before 20.01.2018
+# cat("\n", file = modelfile, append = TRUE)
 
 saveRDS(inhaler_model, file = "inst/extdata/inhaler.rds")
 
-#inhaler_model1 = readRDS("inst/extdata/inhaler.rds")
-#fit2 = update(inhaler_model1, newdata = inhaler)
+#inhaler_model_1 = readRDS("inst/extdata/inhaler.rds")
+#fit2 = update(inhaler_model_1, newdata = inhaler)
 
 # retrieve file in package via 
-# system.file("extdata", package = "brmspack")
+# system.file("extdata/inhaler.rds", package = "brmspack")
