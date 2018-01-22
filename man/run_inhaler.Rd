@@ -10,5 +10,5 @@ run_inhaler()
 Runs the inhaler example from brms/brm with new data set
 }
 \examples{
-run_inhaler()
+#run_inhaler()
 }
