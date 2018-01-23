@@ -14,10 +14,10 @@ This demo package uses the `inhaler` examples from `brms/brm` (with venerable BU
 
 # Howto
 
-* To run the examples in this package, you need a github version of `brms` Version 2.03 and data >= 2018-01-22. Use `devtools::install_github("paul-buerkner/brms")`
+* To run the examples in this package, you need a github version of `brms` withn version >= 2.03 and creation date >= 2018-01-22. Use `devtools::install_github("paul-buerkner/brms")`
 * Generate a Stan package skeleton with `rstantools/rstan_package_skeleton`. It is assumed that you do not know the names of your Stan files yet, so you probably leave the parameter `stan_files` empty.
-* I assume that you work in RStudio; emacs afficionados don't need tutorials. Make sure that you let roxygen build your `NAMESPACE` and `.Rd` files in your project settings.
-* Create your model file in a directory which you add to `.Rbuildignore`. I use `brms`, but the name does not matter. This generates your brmsfit-template, and the code will be replace at run time by code generated at installation time.
+* I assume that you work in RStudio; emacs afficionados don't need tutorials. Make sure that you let roxygen2 build your `NAMESPACE` and `.Rd` files in your project settings.
+* Create your model template from R code in a directory which you add to `.Rbuildignore`. I use `brms`, but the name does not matter. The following example generates a brmsfit-template. Do not save the code, use `save_dso = FALSE`; it will be replaced at run time by system-specific code generated during installation.
 
 ```
 # From brms/generate_stan
@@ -28,7 +28,7 @@ stopifnot(file.exists("DESCRIPTION")) # Make sure we start from project file
 modelfile = "src/stan_files/inhaler.stan"
 inhaler_model = brm(rating ~ period + carry + cs(treat), 
             save_model = modelfile,
-            save_dso = FALSE, # will be replaced by compiled 
+            save_dso = FALSE, # will be replaced by compiled code
             chains = 1,
             iter = 100,
             data = inhaler, family = sratio("cloglog"), 
