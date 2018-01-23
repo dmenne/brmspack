@@ -14,7 +14,9 @@
 #' @importFrom Rcpp loadModule
 #'
 #' @examples
+#' \dontrun{
 #' run_inhaler()
+#' }
 #' @export
 run_inhaler = function(newdata){
   mod = stanmodels[["inhaler"]] # Not yet used
