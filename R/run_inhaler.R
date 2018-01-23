@@ -4,6 +4,7 @@
 #' \code{brms/generate_stan.R}.
 #' @param newdata New data set of the same structure as \code{inhaler} 
 #' in `brms`
+#' @param prior Optional new prior
 #' @return A structure of class brmsfit
 #'
 #' @useDynLib brmspack
@@ -16,7 +17,7 @@
 #' @examples
 #' run_inhaler()
 #' @export
-run_inhaler = function(newdata){
+run_inhaler = function(newdata, prior = NULL){
   mod = stanmodels[["inhaler"]] # Not yet used
   # load inhaler_model 
   inhaler_model = readRDS(system.file("extdata/inhaler.rds", package = "brmspack"))
@@ -27,11 +28,10 @@ run_inhaler = function(newdata){
   # required patch levels date of brms >= 2018-01-22
   stopifnot(!is.null(getCall(inhaler_model))) 
   inhaler_model$fit@stanmodel = mod 
-  
-  fit = update(inhaler_model, 
-                iter = 500,
-                chains = 2,
-                newdata = newdata, recompile = FALSE)
+  fit = update(inhaler_model, iter = 500, chains = 2,
+               prior = prior,
+               newdata = newdata, recompile = FALSE)
+
   #plot(fit, pars = "treat", ask = FALSE)
   fit
 }

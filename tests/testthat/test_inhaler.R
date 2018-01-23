@@ -7,9 +7,12 @@ test_that("Fitting with precompiled model returns brmsfit",{
   fit1 = run_inhaler(inhaler)
   expect_is(fit1, "brmsfit")
 
+  fit2 = run_inhaler(inhaler, prior = set_prior("normal(0, 1000"))
+  expect_is(fit2, "brmsfit")
+
   # mix up results a bit so we get a random result  
   newdata = inhaler
   newdata$rating = sample(newdata$rating, nrow(newdata))
-  fit2 = run_inhaler(newdata)
-  expect_is(fit2, "brmsfit")
+  fit3 = run_inhaler(newdata)
+  expect_is(fit3, "brmsfit")
 })

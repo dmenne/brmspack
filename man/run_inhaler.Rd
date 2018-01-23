@@ -4,11 +4,13 @@
 \alias{run_inhaler}
 \title{Run inhaler analysis with new data}
 \usage{
-run_inhaler(newdata)
+run_inhaler(newdata, prior = NULL)
 }
 \arguments{
 \item{newdata}{New data set of the same structure as \code{inhaler} 
 in `brms`}
+
+\item{prior}{Optional new prior}
 }
 \value{
 A structure of class brmsfit
