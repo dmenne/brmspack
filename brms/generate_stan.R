@@ -1,4 +1,4 @@
-# Generated stan file with brms
+# Generate stan file with brms
 
 ## Ordinal regression modeling patient's rating of inhaler instructions 
 ## category specific effects are estimated for variable 'treat'
