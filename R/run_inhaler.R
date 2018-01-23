@@ -12,10 +12,13 @@
 #' @importFrom utils data
 #' @importFrom stats getCall
 #' @importFrom Rcpp loadModule
+#' @import methods
 #'
 #' @examples
+#' # This example fails during build but works after installation
 #' \dontrun{
-#' run_inhaler()
+#' data("inhaler", package= "brms")
+#' run_inhaler(inhaler)
 #' }
 #' @export
 run_inhaler = function(newdata){
@@ -24,7 +27,9 @@ run_inhaler = function(newdata){
   model_file = system.file("extdata/inhaler.rds", package = "brmspack")
   if (is.null(model_file)) # Make debugging a bit easier
     model_file = "inst/extdata/inhaler.rds"
+  stopifnot(file.exists(model_file))
   inhaler_model = readRDS(model_file)
+  stopifnot(!is.null(inhaler_model))
 
   # for debugging
   #  mod = brmspack:::stanmodels[["inhaler"]] 
