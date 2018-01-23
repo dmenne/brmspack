@@ -6,7 +6,7 @@ Version: 0.1.0.9000
 Date: 2018-01-19
 Authors@R: c(
     person("Dieter", "Menne", , "dieter.menne@menne-biomed.de", role = c("aut", "cre")),
-    person("Paul", "Buerkner",, "paul.buerkner@gmail.com", role = "aut"))
+    person("Paul", "Buerkner",, "paul.buerkner@gmail.com", role = "ctb"))
 Maintainer: Dieter Menne<dieter.menne@menne-biomed.de>
 Description: Precompiles inhaler model and runs it with updated data. 
     Priors cannot be updated without recompiling.
@@ -15,9 +15,8 @@ Depends:
     R (>= 3.3.0), methods 
 Imports:
     Rcpp (>= 0.12.14),
-    rstan (>= 2.17.2), 
-    rstantools (>= 1.4.0),
-    brms
+    brms (>= 2.0.3),
+    rstan (>= 2.17.1)
 LinkingTo:
     StanHeaders (>= 2.17.1), 
     rstan (>= 2.17.2), 

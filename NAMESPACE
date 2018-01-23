@@ -3,6 +3,7 @@
 export(run_inhaler)
 importFrom(Rcpp,loadModule)
 importFrom(graphics,plot)
+importFrom(stats,getCall)
 importFrom(stats,update)
 importFrom(utils,data)
 useDynLib(brmspack)

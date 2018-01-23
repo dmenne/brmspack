@@ -1,4 +1,4 @@
-// generated with brms 2.0.2
+// generated with brms 2.0.3
 functions { 
 
   /* compute the cloglog link 
