@@ -14,7 +14,7 @@ This demo package uses the `inhaler` examples from `brms/brm` (with venerable BU
 
 # Howto
 
-* To run the examples in this package, you need a github version of `brms` with version >= 2.03 and creation date >= 2018-01-22. Use `devtools::install_github("paul-buerkner/brms")`
+* To run the examples in this package, you need a github version of `brms` with version >= 2.1.0. Use `devtools::install_github("paul-buerkner/brms")`
 * Generate a Stan package skeleton with `rstantools/rstan_package_skeleton`. It is assumed that you do not know the names of your Stan files yet, so leave the parameter `stan_files` empty.
 * I assume that you work in RStudio; emacs afficionados don't need tutorials. Make sure that you let `roxygen2` build `NAMESPACE` and `.Rd` files in your project settings.
 * Create your model template from R code in a directory which you add to `.Rbuildignore`. I use `brms`, but the name does not matter. Do not save the code, use `save_dso = FALSE`; it will be replaced by system-specific code generated during installation.
@@ -46,7 +46,7 @@ saveRDS(inhaler_model, file = "inst/extdata/inhaler.rds")
 
 ## Correct skeleton defaults
 
-_Added later: See also [Ben Goodrich's](http://discourse.mc-stan.org/t/brms-without-recompile-sample/3090/2) view into the future with GNU make._
+_Added later_: See also [Ben Goodrich's](http://discourse.mc-stan.org/t/brms-without-recompile-sample/3090/2) view into the future with GNU make.
 
 Now comes the not so amusing part, correcting the inconsistencies of the Stan skeleton; some have been reported by [Paul Brückner](https://github.com/stan-dev/rstantools/issues/19), things might have improved in versions of rstantools >1.4.0.
 

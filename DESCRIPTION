@@ -14,7 +14,7 @@ Depends:
     R (>= 3.3.0), methods 
 Imports:
     Rcpp (>= 0.12.14),
-    brms (>= 2.0.3),
+    brms (>= 2.1.0),
     rstan (>= 2.17.1)
 LinkingTo:
     StanHeaders (>= 2.17.1), 
