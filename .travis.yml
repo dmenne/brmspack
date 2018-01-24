@@ -3,12 +3,11 @@ sudo: false
 r: devel
 cache: packages
 
-latex: true
+latex: false
 r_build_args: '--no-build-vignettes'
-r_check_args: '--ignore-vignettes'
+r_check_args: '--ignore-vignettes --no-manual'
 
 r_github_packages:
-  - jimhester/covr
   - dmenne/breathtestcore
 
 env:
