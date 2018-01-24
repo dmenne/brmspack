@@ -57,6 +57,6 @@ I have moved `Depends: Rcpp` to `Imports: Rcpp` in DESCRIPTION. There are cases 
 
 # Caveat
 
-Priors are hard-wired in `brms` code and require recompilation. There is no error message when you set priors in `update`, but they are not used. This might change in the future; in the current version, the mechanism for autochecking of recompiles creates false alarm and has been overridden.
+Priors are hard-wired in `brms` code and require recompilation when changed. Detection of model changes in `update` has been disabled (`recompile = FALSE`), so when priors are set this is not honored. This might change in the future; in the current version, the mechanism for autochecking of recompiles creates false alarm and has been overridden.
 
 
