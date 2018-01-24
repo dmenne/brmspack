@@ -46,6 +46,8 @@ saveRDS(inhaler_model, file = "inst/extdata/inhaler.rds")
 
 ## Correct skeleton defaults
 
+_Added later: See also [Ben Goodrich's](http://discourse.mc-stan.org/t/brms-without-recompile-sample/3090/2) view into the future with GNU make._
+
 Now comes the not so amusing part, correcting the inconsistencies of the Stan skeleton; some have been reported by [Paul Brückner](https://github.com/stan-dev/rstantools/issues/19), things might have improved in versions of rstantools >1.4.0.
 
 1. _The easy one:_  The license file must be copied to subdirectory `src/stan_files/pre`, from `chunks` where the skeleton puts it.
