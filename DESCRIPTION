@@ -26,3 +26,5 @@ Remotes:
     paul-buerkner/brms 
 RoxygenNote: 6.0.1.9000
 Suggests: testthat
+SystemRequirements: GNU make
+
