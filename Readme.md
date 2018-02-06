@@ -46,14 +46,14 @@ saveRDS(inhaler_model, file = "inst/extdata/inhaler.rds")
 
 ## Correct skeleton defaults
 
-_Added later_: See also [Ben Goodrich's](http://discourse.mc-stan.org/t/brms-without-recompile-sample/3090/2) view into the future with GNU make.
+_Added later_: See also [Ben Goodrich's](http://discourse.mc-stan.org/t/brms-without-recompile-sample/3090/2) view into the future with GNU make. 
 
 Now comes the not so amusing part, correcting the inconsistencies of the Stan skeleton; some have been reported by [Paul Brückner](https://github.com/stan-dev/rstantools/issues/19), things might have improved in versions of rstantools >1.4.0.
 
 1. _The easy one:_  The license file must be copied to subdirectory `src/stan_files/pre`, from `chunks` where the skeleton puts it.
 2. In `R/zzz.R`, change  `loadModule(m, what = TRUE)` to `Rcpp::loadModule(m, what = TRUE)`. Alternatively, you can add `@importFrom Rcpp loadModule` to one of your R files.
-3. _The ugly one:_ When you have not used `stan_files` during skeleton creation, or when you have added more Stan files, you must manually add their names to `Makevars` and to `Makevars.win`, for example: `SOURCES = stan_files/inhaler.stan`.
-4.  _The slow long-term killer:_ Stan and Rcpp are moving targets, and to handle changes in compilers requires updates in `.cpp, .hpp`, `StanModels.R` and `Makevars`. When I am flooded with error message after a version change, I generate a new skeleton in an empty directory, and compare the core-files to find out what has changed. Some sort of versioning probably would be nice in the future.
+3. _The ugly one:_ When you have not used `stan_files` during skeleton creation, or when you have added more Stan files, you must manually add their names to `Makevars` and to `Makevars.win`, for example: `SOURCES = stan_files/inhaler.stan`. New: By adding `SystemRequirements: GNU make` in DESCRIPTION you can use `SOURCES = $(wildcard stan_files/*.stan)` - see branch `use-gnumake`, but it will produce a `NOTE` during CRAN build.
+4.  _The slow long-term killer:_ Stan and Rcpp are moving targets, and to handle changes in compilers requires updates in `.cpp, .hpp`, `StanModels.R` and `Makevars`. When I am flooded with error message after a version change, I generate a new skeleton in an empty directory, and compare the core-files to find out what has changed. See [here](http://discourse.mc-stan.org/t/new-cppobject-xp-constructor-in-2-16-and-how-to-configure-travisci/1192/26?u=denne) for details.  Some sort of versioning probably would be nice in the future. 
 
 I have moved `Depends: Rcpp` to `Imports: Rcpp` in DESCRIPTION. There are cases where you might have to move it back.
 

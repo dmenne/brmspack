@@ -22,7 +22,6 @@
 #' }
 #' @export
 run_inhaler = function(newdata){
-  mod = stanmodels[["inhaler"]] # Not yet used
   # load inhaler_model 
   model_file = system.file("extdata/inhaler.rds", package = "brmspack")
   if (is.null(model_file)) # Make debugging a bit easier
@@ -31,6 +30,7 @@ run_inhaler = function(newdata){
   inhaler_model = readRDS(model_file)
   stopifnot(!is.null(inhaler_model))
 
+  mod = stanmodels[["inhaler"]] 
   # for debugging
   #  mod = brmspack:::stanmodels[["inhaler"]] 
   # required patch levels date of brms >= 2018-01-22
