@@ -13,5 +13,6 @@ inhaler_model = brm(rating ~ period + carry + cs(treat),
             data = inhaler, family = sratio("cloglog"), 
             prior = set_prior("normal(0,5)"))
 
+dir.create("inst/extdata")
 saveRDS(inhaler_model, file = "inst/extdata/inhaler.rds")
 

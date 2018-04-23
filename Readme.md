@@ -14,7 +14,7 @@ This demo package uses the `inhaler` examples from `brms/brm` (with venerable BU
 
 # Howto
 
-* To run the examples in this package, you need a github version of `brms` with version >= 2.1.0. Use `devtools::install_github("paul-buerkner/brms")`
+* To run the examples in this package, you need a version of `brms` >= 2.1.0. 
 * Generate a Stan package skeleton with `rstantools/rstan_package_skeleton`. It is assumed that you do not know the names of your Stan files yet, so leave the parameter `stan_files` empty.
 * I assume that you work in RStudio; emacs afficionados don't need tutorials. Make sure that you let `roxygen2` build `NAMESPACE` and `.Rd` files in your project settings.
 * Create your model template from R code in a directory which you add to `.Rbuildignore`. I use `brms`, but the name does not matter. Do not save the code, use `save_dso = FALSE`; it will be replaced by system-specific code generated during installation.
@@ -34,31 +34,32 @@ inhaler_model = brm(rating ~ period + carry + cs(treat),
             data = inhaler, family = sratio("cloglog"), 
             prior = set_prior("normal(0,5)"))
 
+dir.create("inst/extdata")
 saveRDS(inhaler_model, file = "inst/extdata/inhaler.rds")
 ```
 
 * Run your model with at least 1 iteration; `brms` does not allow for 0 iterations as `rstan/stan` does.
 * The Stan model must be stored in `src/stan_files/` via parameter `save_model`. 
-* Save the result in `inst/extdata/xxd.rda`. It will be used to generate an instance of `brms_fit` at run-time. 
+* Save the result in `inst/extdata/inhaler.rda`. It will be used to generate an instance of `brms_fit` at run-time. 
 * After installation, this file will be shifted up one level into `<package>/extdata`. This makes debugging a bit awkward; tell me if you know of a better place. Don't build the package yet, it will fail.
 * Write the [user R function](https://github.com/dmenne/brmspack/blob/master/R/run_inhaler.R). It is important that you add `@useDynLib <packagename>` in this file or somewhere else in the project; on failure, check that the dynlib has been transferred to the `NAMESPACE` file.
 * During development, I access `stanmodels` with `:::`; you must remove this for the final build, CRAN and friends do not like :::. 
 
 ## Correct skeleton defaults
 
-_Added later_: See also [Ben Goodrich's](http://discourse.mc-stan.org/t/brms-without-recompile-sample/3090/2) view into the future with GNU make. 
+
 
 Now comes the not so amusing part, correcting the inconsistencies of the Stan skeleton; some have been reported by [Paul Brückner](https://github.com/stan-dev/rstantools/issues/19), things might have improved in versions of rstantools >1.4.0.
 
-1. _The easy one:_  The license file must be copied to subdirectory `src/stan_files/pre`, from `chunks` where the skeleton puts it.
+1. _The easy one:_  File `license.stan` must be copied to subdirectory `src/stan_files/pre`, from `chunks` where the skeleton puts it.
 2. In `R/zzz.R`, change  `loadModule(m, what = TRUE)` to `Rcpp::loadModule(m, what = TRUE)`. Alternatively, you can add `@importFrom Rcpp loadModule` to one of your R files.
-3. _The ugly one:_ When you have not used `stan_files` during skeleton creation, or when you have added more Stan files, you must manually add their names to `Makevars` and to `Makevars.win`, for example: `SOURCES = stan_files/inhaler.stan`. New: By adding `SystemRequirements: GNU make` in DESCRIPTION you can use `SOURCES = $(wildcard stan_files/*.stan)` - see branch `use-gnumake`, but it will produce a `NOTE` during CRAN build.
+3. _The ugly one:_ When you have not used `stan_files` during skeleton creation, or when you have added Stan files to your project, you must manually insert their names to `Makevars` and to `Makevars.win`, for example: `SOURCES = stan_files/inhaler.stan`. In more recent version of the skeleton generator, you must remove the bogus list of stan models (`stan_files/bernoulli.stan`) before you insert your file name.
+3a. Alternatively: [Ben Goodrich's](http://discourse.mc-stan.org/t/brms-without-recompile-sample/3090/2) : By adding `SystemRequirements: GNU make` in DESCRIPTION you can use `SOURCES = $(wildcard stan_files/*.stan)` - see branch `use-gnumake`, but it will produce a `NOTE` during CRAN build. 
 4.  _The slow long-term killer:_ Stan and Rcpp are moving targets, and to handle changes in compilers requires updates in `.cpp, .hpp`, `StanModels.R` and `Makevars`. When I am flooded with error message after a version change, I generate a new skeleton in an empty directory, and compare the core-files to find out what has changed. See [here](http://discourse.mc-stan.org/t/new-cppobject-xp-constructor-in-2-16-and-how-to-configure-travisci/1192/26?u=denne) for details.  Some sort of versioning probably would be nice in the future. 
 
 I have moved `Depends: Rcpp` to `Imports: Rcpp` in DESCRIPTION. There are cases where you might have to move it back.
 
 # Caveat
 
-Priors are hard-wired in `brms` code and require recompilation when changed. Detection of model changes in `update` has been disabled (`recompile = FALSE`), so when priors are set this is not honored. This might change in the future; in the current version, the mechanism for autochecking of recompiles creates false alarm and has been overridden.
-
+Priors are hard-wired in `brms` code and require recompilation when changed by default. In more recent versions you can use parameter `stanvars` to changes these at run-time (See github issues [here](https://github.com/paul-buerkner/brms/issues/357) and [here](https://github.com/paul-buerkner/brms/issues/219))
 

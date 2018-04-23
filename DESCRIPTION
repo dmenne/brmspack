@@ -2,8 +2,8 @@ Package: brmspack
 Type: Package
 Title: How to use precompiled models with brms
 Encoding: UTF-8
-Version: 0.1.0.9000
-Date: 2018-01-19
+Version: 0.1.0.9001
+Date: 2018-04-26
 Authors@R: c(
     person("Dieter", "Menne", , "dieter.menne@menne-biomed.de", role = c("aut", "cre")),
     person("Paul", "Buerkner",, "paul.buerkner@gmail.com", role = "ctb"))
