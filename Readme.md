@@ -59,6 +59,9 @@ Now comes the not so amusing part, correcting the inconsistencies of the Stan sk
 
 I have moved `Depends: Rcpp` to `Imports: Rcpp` in DESCRIPTION. There are cases where you might have to move it back.
 
+
+See also [Step by step guide for creating a package that depends on RStan](http://mc-stan.org/rstantools/articles/minimal-rstan-package.html)
+
 # Caveat
 
 Priors are hard-wired in `brms` code and require recompilation when changed by default. In more recent versions you can use parameter `stanvars` to changes these at run-time (See github issues [here](https://github.com/paul-buerkner/brms/issues/357) and [here](https://github.com/paul-buerkner/brms/issues/219))
