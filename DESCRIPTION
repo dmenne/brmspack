@@ -24,5 +24,7 @@ LinkingTo:
     RcppEigen (>= 0.3.3.3.1)
 Remotes:
     paul-buerkner/brms 
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0
 Suggests: testthat
+SystemRequirements: GNU make
+

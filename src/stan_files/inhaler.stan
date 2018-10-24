@@ -1,4 +1,4 @@
-// generated with brms 2.2.1
+// generated with brms 2.6.0
 functions { 
 
   /* compute the cloglog link 
@@ -10,49 +10,57 @@ functions {
    real cloglog(real p) { 
      return log(-log(1 - p)); 
    }
-  /* sratio-cloglog log-PDF for a single response 
-   * Args: 
-   *   y: response category 
-   *   mu: linear predictor 
-   *   thres: ordinal thresholds 
-   *   disc: discrimination parameter 
-   * Returns: 
-   *   a scalar to be added to the log posterior 
-   */ 
-   real sratio_cloglog_lpmf(int y, real mu, vector thres, real disc) { 
-     int ncat = num_elements(thres) + 1; 
-     vector[ncat] p; 
-     vector[ncat - 1] q; 
-     for (k in 1:(ncat - 1)) { 
-       q[k] = 1 - inv_cloglog(disc * (thres[k] - mu)); 
-       p[k] = 1 - q[k]; 
-       for (kk in 1:(k - 1)) p[k] = p[k] * q[kk]; 
-     } 
-     p[ncat] = prod(q); 
-     return categorical_lpmf(y | p); 
+  /* sratio-cloglog log-PDF for a single response
+   * Args:
+   *   y: response category
+   *   mu: linear predictor
+   *   thres: ordinal thresholds
+   *   disc: discrimination parameter
+   * Returns:
+   *   a scalar to be added to the log posterior
+   */
+   real sratio_cloglog_lpmf(int y, real mu, vector thres, real disc) {
+     int ncat = num_elements(thres) + 1;
+     vector[ncat] p;
+     vector[ncat - 1] q;
+     int k = 1;
+     while (k <= min(y, ncat - 1)) {
+       q[k] = 1 - inv_cloglog(disc * (thres[k] - mu));
+       p[k] = 1 - q[k];
+       for (kk in 1:(k - 1)) p[k] = p[k] * q[kk];
+       k += 1;
+     }
+     if (y == ncat) {
+       p[ncat] = prod(q);
+     }
+     return log(p[y]);
    } 
-  /* sratio-cloglog log-PDF for a single response 
-   * including category specific effects 
-   * Args: 
-   *   y: response category 
-   *   mu: linear predictor 
-   *   mucs: predictor for category specific effects 
-   *   thres: ordinal thresholds 
-   *   disc: discrimination parameter 
-   * Returns: 
-   *   a scalar to be added to the log posterior 
-   */ 
-   real sratio_cloglog_cs_lpmf(int y, real mu, row_vector mucs, vector thres, real disc) { 
-     int ncat = num_elements(thres) + 1; 
-     vector[ncat] p; 
-     vector[ncat - 1] q; 
-     for (k in 1:(ncat - 1)) { 
-       q[k] = 1 - inv_cloglog(disc * (thres[k] - mucs[k] - mu)); 
-       p[k] = 1 - q[k]; 
-       for (kk in 1:(k - 1)) p[k] = p[k] * q[kk]; 
-     } 
-     p[ncat] = prod(q); 
-     return categorical_lpmf(y | p); 
+  /* sratio-cloglog log-PDF for a single response
+   * including category specific effects
+   * Args:
+   *   y: response category
+   *   mu: linear predictor
+   *   mucs: predictor for category specific effects
+   *   thres: ordinal thresholds
+   *   disc: discrimination parameter
+   * Returns:
+   *   a scalar to be added to the log posterior
+   */
+   real sratio_cloglog_cs_lpmf(int y, real mu, row_vector mucs, vector thres, real disc) {
+     int ncat = num_elements(thres) + 1;
+     vector[ncat] p;
+     vector[ncat - 1] q;
+     int k = 1;
+     while (k <= min(y, ncat - 1)) {
+       q[k] = 1 - inv_cloglog(disc * (thres[k] - mucs[k] - mu));
+       p[k] = 1 - q[k];
+       for (kk in 1:(k - 1)) p[k] = p[k] * q[kk];
+       k += 1;
+     }
+     if (y == ncat) {
+       p[ncat] = prod(q);
+     }
+     return log(p[y]);
    } 
 } 
 data { 
@@ -85,16 +93,16 @@ transformed parameters {
 model { 
   // linear predictor for category specific effects
   matrix[N, ncat - 1] mucs = Xcs * bcs;
-  vector[N] mu = Xc * b; 
+  vector[N] mu = Xc * b;
   // priors including all constants 
   target += normal_lpdf(b | 0,5); 
   target += student_t_lpdf(temp_Intercept | 3, 0, 10); 
   target += normal_lpdf(to_vector(bcs) | 0,5); 
   // likelihood including all constants 
   if (!prior_only) { 
-    for (n in 1:N) { 
-      target += sratio_cloglog_cs_lpmf(Y[n] | mu[n], mucs[n], temp_Intercept, disc); 
-    } 
+    for (n in 1:N) {
+      target += sratio_cloglog_cs_lpmf(Y[n] | mu[n], mucs[n], temp_Intercept, disc);
+    }
   } 
 } 
 generated quantities { 
