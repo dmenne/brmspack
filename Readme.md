@@ -47,9 +47,8 @@ saveRDS(inhaler_model, file = "inst/extdata/inhaler.rds")
 
 ## Correct skeleton defaults
 
+**This section is kept for historical reasons, most items have been resolved in recent versions of rstantools.**
 
-
-Now comes the not so amusing part, correcting the inconsistencies of the Stan skeleton; some have been reported by [Paul Brückner](https://github.com/stan-dev/rstantools/issues/19), things might have improved in versions of rstantools >1.4.0.
 
 1. _The easy one:_  File `license.stan` must be copied to subdirectory `src/stan_files/pre`, from `chunks` where the skeleton puts it.
 2. In `R/zzz.R`, change  `loadModule(m, what = TRUE)` to `Rcpp::loadModule(m, what = TRUE)`. Alternatively, you can add `@importFrom Rcpp loadModule` to one of your R files.
