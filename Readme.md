@@ -4,7 +4,7 @@ brmspack: Using precompiled models in brms
 ===========================================
 
 
-# This example no longer works - patches welcom
+## This example no longer works - patches welcome
 
 Dieter Menne   
 Menne Biomed Consulting Tübingen, Germany    
